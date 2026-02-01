@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Will You Be My Valentine? 💕</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Open+Sans:wght@400;600&family=Indie+Flower&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+</head>
+<body>
+
+    <div class="music-toggle" id="musicToggle">
+        🎵 Music: Off
+    </div>
+
+    <!-- Background Elements -->
+    <div class="floating-hearts-container" id="heartsContainer"></div>
+
+    <div class="container" id="mainContainer">
+        <header class="hero">
+            <img src="bear.png" alt="Cute Bear" class="hero-img">
+            <h1>Will you be my Valentine, Januu? 💕</h1>
+            <p>I promise unlimited love, hugs, and your favorite snacks forever.</p>
+        </header>
+
+        <div class="actions">
+            <button id="yesBtn" class="btn btn-yes">YES 💖</button>
+            <button id="noBtn" class="btn btn-no">NO 🙄</button>
+        </div>
+
+        <div id="quoteContainer" class="quote-container">
+            <!-- Quotes will appear here -->
+        </div>
+    </div>
+
+    <div class="celebration-container hidden" id="celebrationContainer">
+        <!-- New Lyrics Feature -->
+        <button id="lyricsToggle" class="lyrics-toggle">🎵 This song reminds me of you</button>
+        <div id="lyricsDisplay" class="lyrics-display"></div>
+        
+        <!-- Polaroid Stack -->
+        <div id="polaroidContainer" class="polaroid-container"></div>
+
+
+        <img src="couple.png" alt="Happy Couple" class="celebration-img">
+        <h2>I knew it, <span class="interactive-name">Januu</span> 😭💘 Thank you for making this Valentine’s Day perfect.</h2>
+        <p>Best decision ever! 🥰</p>
+
+        <!-- Gift Reveal Section -->
+        <div id="giftSection">
+            <div class="gift-box-container" onclick="revealGift()">
+                <div class="gift-box">🎁</div>
+                <div class="gift-text">I have a surprise for you... (Click me!)</div>
+            </div>
+        </div>
+
+        <!-- Hidden Envelope (Revealed after clicking gift) -->
+        <div id="envelope-area" style="display:none;">
+            <div id="envelope" class="close">
+                <div class="front flap"></div>
+                <div class="front pocket"></div>
+                <div class="letter" id="previewLetter">
+                    <div class="words line1">Dear Januu,</div>
+                    <div class="words line2">You are so beautiful</div>
+                    <div class="words line3">that every time I see you,</div>
+                    <div class="words line4">my whole world just stops.</div>
+                    <div class="read-more-hint">Tap to read full letter... 💌</div>
+                </div>
+                <div class="hearts">
+                    <div class="heart a1"></div>
+                    <div class="heart a2"></div>
+                    <div class="heart a3"></div>
+                </div>
+            </div>
+            <div class="reset">
+                <button id="open">Open</button>
+                <button id="reset">Close</button>
+            </div>
+        </div>
+        <!-- Hug Interaction Section -->
+        <div id="hugSection" style="margin-top: 30px;">
+            <button class="btn btn-hug" onclick="triggerHug()">Send me a hug 🤍</button>
+        </div>
+
+        <!-- Future Promise Section -->
+        <div id="futureSection" style="margin-top: 50px; padding-bottom: 50px;">
+            <p style="font-size: 1.5rem; margin-bottom: 20px;">This is just the beginning...</p>
+            <div class="future-buttons">
+                <button class="btn btn-future" id="btnDates" onclick="showFuture('dates')">More dates 🥰</button>
+                <button class="btn btn-future" id="btnLaughs" onclick="showFuture('laughs')">More laughs 😂</button>
+                <button class="btn btn-future" id="btnUs" onclick="showFuture('us')">More us 💖</button>
+            </div>
+        </div>
+
+        <!-- Reasons Machine -->
+        <div id="reasonsSection" style="margin-top: 20px; margin-bottom: 50px;">
+            <button id="reasonsBtn" class="btn-reason">💗 Random Cute Reasons</button>
+            <div id="reasonDisplay" class="reason-display"></div>
+        </div>
+
+        <!-- Promise Overlay -->
+        <div id="promiseOverlay" class="promise-overlay hidden">
+            <div class="promise-card" id="promiseCard">
+                <span class="close-promise" onclick="closePromise()">&times;</span>
+                <div id="promiseContent"></div>
+            </div>
+        </div>
+        
+        <!-- Final Screen (Hidden initially, shown after choices or scroll) -->
+        <div id="finalScreen" class="final-container">
+            <h1>Happy Valentine’s Day, Januu 💘</h1>
+            <p>You’re my always.</p>
+        </div>
+        
+        <!-- Spacer to force scroll -->
+        <div style="height: 300px; width: 100%;"></div>
+    </div>
+
+    <!-- Hug Overlay -->
+    <div id="hugOverlay" class="hug-overlay hidden">
+        <div class="arm arm-left"></div>
+        <div class="arm arm-right"></div>
+        <div class="hug-text">This is how tight I’d hug you right now. 🫂</div>
+    </div>
+
+    <!-- Full Letter Modal -->
+    <div id="fullLetterModal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div class="full-letter-text">
+                <div class="voice-note-container" style="text-align: center; margin-bottom: 20px;">
+                    <button id="playVoiceBtn" class="btn-voice">🎙️ Play my voice</button>
+                    <audio id="voiceNoteAudio">
+                        <source src="A Heartfelt Valentine's Message to Janu.m4a" type="audio/mp4">
+                    </audio>
+                </div>
+                <p><strong>Dear Januu,</strong></p>
+                <p>You are so beautiful that every time I see you, my whole world just stops.</p>
+                <p>Your smile alone is enough to make my worst days feel brighter.</p>
+                <p>You’re incredibly pretty, inside and out, and you make my life feel perfect and full of happiness.</p>
+                <p>With you, even the simplest moments become special.</p>
+                <br>
+                <p>I’m so happy that you are mine, and I feel proud every single day to call you my love.</p>
+                <p>My heart feels safest with you, and my happiest place is right by your side.</p>
+                <br>
+                <p>I love you so goddamn much, my sweet little princess.</p>
+                <p>Thank you for choosing me, for loving me, and for being exactly who you are.</p>
+                <p>Thank you for being my Valentine, my happiness, and my forever, love. ❤️</p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        Made with love, especially for you, Januu.
+    </footer>
+
+    <!-- Place a nice royalty free song here if you have one, otherwise it's just a placeholder mechanism -->
+    <!-- Background Music (Main Vibe) -->
+    <audio id="bgMusic" loop>
+        <source src="ReelAudio-82719.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Synced Song (Snowman) -->
+    <audio id="snowmanAudio">
+        <source src="Snowman (1).mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Photo Modal -->
+    <div id="photoModal" class="photo-modal hidden">
+        <span class="close-photo" onclick="closePhotoModal()">&times;</span>
+        <img id="modalImg" src="" alt="Enlarged Memory">
+        <div id="modalCaption" class="modal-caption"></div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
